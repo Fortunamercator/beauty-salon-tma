@@ -1,0 +1,1151 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Салон красоты - Структура приложения</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --pink-light: #FDF2F8;
+            --pink-soft: #FBCFE8;
+            --pink-medium: #F9A8D4;
+            --pink-accent: #EC4899;
+            --lavender: #F3E8FF;
+            --lavender-medium: #DDD6FE;
+            --mint: #D1FAE5;
+            --mint-medium: #6EE7B7;
+            --peach: #FED7AA;
+            --peach-medium: #FDBA74;
+            --cream: #FFFBEB;
+            --text-dark: #1F2937;
+            --text-medium: #4B5563;
+            --text-light: #9CA3AF;
+            --white: #FFFFFF;
+            --shadow: rgba(236, 72, 153, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: linear-gradient(135deg, var(--pink-light) 0%, var(--lavender) 50%, var(--cream) 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+            color: var(--text-dark);
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .header h1 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 3.5rem;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            color: var(--text-medium);
+            font-weight: 300;
+        }
+
+        .mindmap {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            position: relative;
+        }
+
+        .card {
+            background: var(--white);
+            border-radius: 24px;
+            padding: 30px;
+            box-shadow: 0 10px 40px var(--shadow);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--pink-medium), var(--lavender-medium));
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 60px rgba(236, 72, 153, 0.15);
+        }
+
+        .card-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            margin-bottom: 20px;
+        }
+
+        .card-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.6rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: var(--text-dark);
+        }
+
+        .card-desc {
+            font-size: 0.9rem;
+            color: var(--text-medium);
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        /* Profile Card */
+        .profile-card {
+            grid-column: span 1;
+            grid-row: span 2;
+        }
+
+        .profile-card .card-icon {
+            background: linear-gradient(135deg, var(--pink-soft), var(--pink-medium));
+        }
+
+        .master-preview {
+            background: linear-gradient(135deg, var(--pink-light), var(--lavender));
+            border-radius: 16px;
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .master-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            margin: 0 auto 15px;
+            box-shadow: 0 8px 25px rgba(236, 72, 153, 0.25);
+            overflow: hidden;
+            border: 4px solid var(--white);
+        }
+
+        .master-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center top;
+        }
+
+        .master-name {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .master-exp {
+            font-size: 0.85rem;
+            color: var(--text-light);
+        }
+
+        .profile-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .tab {
+            flex: 1;
+            padding: 12px;
+            border-radius: 12px;
+            text-align: center;
+            font-size: 0.85rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .tab.active {
+            background: linear-gradient(135deg, var(--pink-accent), #DB2777);
+            color: white;
+        }
+
+        .tab:not(.active) {
+            background: var(--pink-light);
+            color: var(--text-medium);
+        }
+
+        .tab:hover:not(.active) {
+            background: var(--pink-soft);
+        }
+
+        .btn-book {
+            width: 100%;
+            padding: 16px;
+            border: none;
+            border-radius: 14px;
+            background: linear-gradient(135deg, var(--pink-accent), #DB2777);
+            color: white;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(236, 72, 153, 0.3);
+        }
+
+        .btn-book:hover {
+            transform: scale(1.02);
+            box-shadow: 0 8px 30px rgba(236, 72, 153, 0.4);
+        }
+
+        /* Services Card */
+        .services-card .card-icon {
+            background: linear-gradient(135deg, var(--mint), var(--mint-medium));
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+
+        .service-item {
+            padding: 14px 16px;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .service-item:nth-child(1) { background: var(--pink-light); color: var(--pink-accent); }
+        .service-item:nth-child(2) { background: var(--lavender); color: #7C3AED; }
+        .service-item:nth-child(3) { background: var(--mint); color: #059669; }
+        .service-item:nth-child(4) { background: var(--peach); color: #EA580C; }
+        .service-item:nth-child(5) { background: var(--cream); color: #D97706; }
+        .service-item:nth-child(6) { background: #E0E7FF; color: #4F46E5; }
+
+        .service-item:hover {
+            transform: scale(1.05);
+        }
+
+        /* Calendar Card */
+        .calendar-card .card-icon {
+            background: linear-gradient(135deg, var(--lavender), var(--lavender-medium));
+        }
+
+        .calendar-preview {
+            background: var(--pink-light);
+            border-radius: 16px;
+            padding: 20px;
+        }
+
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .calendar-month {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .calendar-nav {
+            display: flex;
+            gap: 8px;
+        }
+
+        .calendar-nav button {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            border: none;
+            background: var(--white);
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+
+        .calendar-nav button:hover {
+            background: var(--pink-soft);
+        }
+
+        .calendar-days {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 5px;
+            text-align: center;
+        }
+
+        .day-name {
+            font-size: 0.7rem;
+            color: var(--text-light);
+            padding: 5px;
+            font-weight: 500;
+        }
+
+        .day {
+            padding: 8px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .day:hover {
+            background: var(--pink-soft);
+        }
+
+        .day.selected {
+            background: var(--pink-accent);
+            color: white;
+        }
+
+        .day.available {
+            background: var(--mint);
+            color: #059669;
+        }
+
+        /* Time Slots */
+        .time-slots {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 15px;
+        }
+
+        .time-slot {
+            padding: 10px 16px;
+            border-radius: 10px;
+            background: var(--white);
+            font-size: 0.85rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .time-slot:hover {
+            background: var(--pink-soft);
+        }
+
+        .time-slot.selected {
+            background: var(--pink-accent);
+            color: white;
+        }
+
+        /* Portfolio Card */
+        .portfolio-card .card-icon {
+            background: linear-gradient(135deg, var(--peach), var(--peach-medium));
+        }
+
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+
+        .portfolio-item {
+            aspect-ratio: 1;
+            border-radius: 12px;
+            background: linear-gradient(135deg, var(--pink-light), var(--lavender));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .portfolio-item:hover {
+            transform: scale(1.05);
+        }
+
+        .portfolio-item::after {
+            content: '❤️';
+            position: absolute;
+            bottom: 8px;
+            right: 8px;
+            font-size: 14px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .portfolio-item:hover::after {
+            opacity: 1;
+        }
+
+        .filter-tags {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+
+        .filter-tag {
+            padding: 8px 14px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .filter-tag.active {
+            background: var(--pink-accent);
+            color: white;
+        }
+
+        .filter-tag:not(.active) {
+            background: var(--pink-light);
+            color: var(--text-medium);
+        }
+
+        /* Price Card */
+        .price-card .card-icon {
+            background: linear-gradient(135deg, var(--cream), var(--peach));
+        }
+
+        .price-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .price-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px 18px;
+            background: var(--pink-light);
+            border-radius: 12px;
+            transition: all 0.2s;
+        }
+
+        .price-item:hover {
+            background: var(--pink-soft);
+        }
+
+        .price-name {
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        .price-duration {
+            font-size: 0.75rem;
+            color: var(--text-light);
+        }
+
+        .price-value {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--pink-accent);
+        }
+
+        /* Reviews Card */
+        .reviews-card .card-icon {
+            background: linear-gradient(135deg, #FECACA, #FCA5A5);
+        }
+
+        .review-item {
+            background: var(--pink-light);
+            border-radius: 16px;
+            padding: 18px;
+            margin-bottom: 12px;
+        }
+
+        .review-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 10px;
+        }
+
+        .review-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--pink-soft), var(--lavender));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+
+        .review-name {
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .review-date {
+            font-size: 0.75rem;
+            color: var(--text-light);
+        }
+
+        .review-stars {
+            color: #FBBF24;
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+        }
+
+        .review-text {
+            font-size: 0.85rem;
+            color: var(--text-medium);
+            line-height: 1.5;
+        }
+
+        /* Loyalty Card */
+        .loyalty-card {
+            grid-column: span 2;
+        }
+
+        .loyalty-card .card-icon {
+            background: linear-gradient(135deg, #FDE68A, #FCD34D);
+        }
+
+        .loyalty-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .loyalty-progress {
+            background: linear-gradient(135deg, var(--cream), var(--peach));
+            border-radius: 16px;
+            padding: 20px;
+        }
+
+        .progress-bar {
+            height: 12px;
+            background: var(--white);
+            border-radius: 6px;
+            overflow: hidden;
+            margin: 15px 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            width: 70%;
+            background: linear-gradient(90deg, var(--pink-accent), #DB2777);
+            border-radius: 6px;
+        }
+
+        .loyalty-benefits {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .benefit-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            background: var(--pink-light);
+            border-radius: 12px;
+            font-size: 0.85rem;
+        }
+
+        .benefit-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            background: var(--white);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Chat Card */
+        .chat-card .card-icon {
+            background: linear-gradient(135deg, #C7D2FE, #A5B4FC);
+        }
+
+        .chat-preview {
+            background: var(--pink-light);
+            border-radius: 16px;
+            padding: 15px;
+        }
+
+        .chat-message {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 12px;
+        }
+
+        .chat-message.sent {
+            flex-direction: row-reverse;
+        }
+
+        .chat-bubble {
+            max-width: 80%;
+            padding: 12px 16px;
+            border-radius: 16px;
+            font-size: 0.85rem;
+        }
+
+        .chat-message:not(.sent) .chat-bubble {
+            background: var(--white);
+            border-bottom-left-radius: 4px;
+        }
+
+        .chat-message.sent .chat-bubble {
+            background: var(--pink-accent);
+            color: white;
+            border-bottom-right-radius: 4px;
+        }
+
+        .chat-input {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .chat-input input {
+            flex: 1;
+            padding: 12px 16px;
+            border: none;
+            border-radius: 12px;
+            background: var(--white);
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.9rem;
+        }
+
+        .chat-input button {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 12px;
+            background: var(--pink-accent);
+            color: white;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        /* Notifications Card */
+        .notifications-card .card-icon {
+            background: linear-gradient(135deg, #BBF7D0, #86EFAC);
+        }
+
+        .notification-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 14px;
+            background: var(--pink-light);
+            border-radius: 12px;
+            margin-bottom: 10px;
+        }
+
+        .notification-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .notification-icon.reminder {
+            background: var(--mint);
+        }
+
+        .notification-icon.promo {
+            background: var(--peach);
+        }
+
+        .notification-icon.confirm {
+            background: var(--lavender);
+        }
+
+        .notification-text {
+            flex: 1;
+        }
+
+        .notification-title {
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-bottom: 3px;
+        }
+
+        .notification-desc {
+            font-size: 0.8rem;
+            color: var(--text-light);
+        }
+
+        /* Flow arrows */
+        .flow-section {
+            margin-top: 60px;
+            background: var(--white);
+            border-radius: 24px;
+            padding: 40px;
+            box-shadow: 0 10px 40px var(--shadow);
+        }
+
+        .flow-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2rem;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .flow-steps {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+        }
+
+        .flow-step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            flex: 1;
+        }
+
+        .flow-number {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--pink-accent), #DB2777);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            box-shadow: 0 8px 25px rgba(236, 72, 153, 0.3);
+        }
+
+        .flow-label {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .flow-desc {
+            font-size: 0.8rem;
+            color: var(--text-light);
+            max-width: 120px;
+        }
+
+        .flow-arrow {
+            color: var(--pink-medium);
+            font-size: 2rem;
+            margin: 0 -20px;
+        }
+
+        @media (max-width: 1024px) {
+            .mindmap {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .profile-card {
+                grid-column: span 1;
+                grid-row: span 1;
+            }
+
+            .loyalty-card {
+                grid-column: span 2;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .mindmap {
+                grid-template-columns: 1fr;
+            }
+
+            .loyalty-card {
+                grid-column: span 1;
+            }
+
+            .loyalty-content {
+                grid-template-columns: 1fr;
+            }
+
+            .flow-steps {
+                flex-direction: column;
+                gap: 30px;
+            }
+
+            .flow-arrow {
+                transform: rotate(90deg);
+                margin: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>✨ Beauty Studio</h1>
+            <p>Telegram Mini App для салона красоты</p>
+        </header>
+
+        <div class="mindmap">
+            <!-- Profile Card -->
+            <div class="card profile-card">
+                <div class="card-icon">👩‍🎨</div>
+                <h2 class="card-title">Профиль мастера</h2>
+                <p class="card-desc">Персональная страница с информацией о мастере</p>
+                
+                <div class="master-preview">
+                    <div class="master-avatar"><img src="master-avatar.png" alt="Александра"></div>
+                    <div class="master-name">Александра</div>
+                    <div class="master-exp">7 лет опыта • 700+ работ</div>
+                </div>
+
+                <div class="profile-tabs">
+                    <div class="tab active">Обо мне</div>
+                    <div class="tab">Отзывы</div>
+                    <div class="tab">Прайс</div>
+                </div>
+
+                <button class="btn-book">✨ Записаться</button>
+            </div>
+
+            <!-- Services Card -->
+            <div class="card services-card">
+                <div class="card-icon">💅</div>
+                <h2 class="card-title">Услуги</h2>
+                <p class="card-desc">Полный каталог услуг с ценами</p>
+                
+                <div class="services-grid">
+                    <div class="service-item">Классический</div>
+                    <div class="service-item">Аппаратный</div>
+                    <div class="service-item">Гель-лак</div>
+                    <div class="service-item">Френч</div>
+                    <div class="service-item">Дизайн</div>
+                    <div class="service-item">Педикюр</div>
+                </div>
+            </div>
+
+            <!-- Calendar Card -->
+            <div class="card calendar-card">
+                <div class="card-icon">📅</div>
+                <h2 class="card-title">Запись онлайн</h2>
+                <p class="card-desc">Удобный выбор даты и времени</p>
+                
+                <div class="calendar-preview">
+                    <div class="calendar-header">
+                        <span class="calendar-month">Март 2026</span>
+                        <div class="calendar-nav">
+                            <button>‹</button>
+                            <button>›</button>
+                        </div>
+                    </div>
+                    <div class="calendar-days">
+                        <div class="day-name">Пн</div>
+                        <div class="day-name">Вт</div>
+                        <div class="day-name">Ср</div>
+                        <div class="day-name">Чт</div>
+                        <div class="day-name">Пт</div>
+                        <div class="day-name">Сб</div>
+                        <div class="day-name">Вс</div>
+                        <div class="day"></div>
+                        <div class="day"></div>
+                        <div class="day"></div>
+                        <div class="day"></div>
+                        <div class="day"></div>
+                        <div class="day"></div>
+                        <div class="day">1</div>
+                        <div class="day available">2</div>
+                        <div class="day available">3</div>
+                        <div class="day">4</div>
+                        <div class="day available">5</div>
+                        <div class="day">6</div>
+                        <div class="day">7</div>
+                        <div class="day">8</div>
+                    </div>
+                    <div class="time-slots">
+                        <div class="time-slot">10:00</div>
+                        <div class="time-slot selected">12:00</div>
+                        <div class="time-slot">14:00</div>
+                        <div class="time-slot">16:00</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Portfolio Card -->
+            <div class="card portfolio-card">
+                <div class="card-icon">📸</div>
+                <h2 class="card-title">Портфолио</h2>
+                <p class="card-desc">Галерея работ с фильтрами</p>
+                
+                <div class="filter-tags">
+                    <span class="filter-tag active">Все</span>
+                    <span class="filter-tag">Френч</span>
+                    <span class="filter-tag">Дизайн</span>
+                    <span class="filter-tag">Минимализм</span>
+                </div>
+
+                <div class="portfolio-grid">
+                    <div class="portfolio-item">💅</div>
+                    <div class="portfolio-item">✨</div>
+                    <div class="portfolio-item">🌸</div>
+                    <div class="portfolio-item">💎</div>
+                    <div class="portfolio-item">🦋</div>
+                    <div class="portfolio-item">🌺</div>
+                </div>
+            </div>
+
+            <!-- Price Card -->
+            <div class="card price-card">
+                <div class="card-icon">💰</div>
+                <h2 class="card-title">Прайс-лист</h2>
+                <p class="card-desc">Актуальные цены на услуги</p>
+                
+                <div class="price-list">
+                    <div class="price-item">
+                        <div>
+                            <div class="price-name">Маникюр классический</div>
+                            <div class="price-duration">40 мин</div>
+                        </div>
+                        <div class="price-value">800 ₽</div>
+                    </div>
+                    <div class="price-item">
+                        <div>
+                            <div class="price-name">Маникюр + гель-лак</div>
+                            <div class="price-duration">90 мин</div>
+                        </div>
+                        <div class="price-value">1 500 ₽</div>
+                    </div>
+                    <div class="price-item">
+                        <div>
+                            <div class="price-name">Дизайн (1 ноготь)</div>
+                            <div class="price-duration">10 мин</div>
+                        </div>
+                        <div class="price-value">100 ₽</div>
+                    </div>
+                    <div class="price-item">
+                        <div>
+                            <div class="price-name">Снятие гель-лака</div>
+                            <div class="price-duration">20 мин</div>
+                        </div>
+                        <div class="price-value">300 ₽</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Reviews Card -->
+            <div class="card reviews-card">
+                <div class="card-icon">⭐</div>
+                <h2 class="card-title">Отзывы</h2>
+                <p class="card-desc">Реальные отзывы клиентов</p>
+                
+                <div class="review-item">
+                    <div class="review-header">
+                        <div class="review-avatar">А</div>
+                        <div>
+                            <div class="review-name">Анна</div>
+                            <div class="review-date">15 марта 2026</div>
+                        </div>
+                    </div>
+                    <div class="review-stars">★★★★★</div>
+                    <div class="review-text">Прекрасный мастер! Очень аккуратно и красиво делает маникюр. Рекомендую!</div>
+                </div>
+
+                <div class="review-item">
+                    <div class="review-header">
+                        <div class="review-avatar">М</div>
+                        <div>
+                            <div class="review-name">Мария</div>
+                            <div class="review-date">10 марта 2026</div>
+                        </div>
+                    </div>
+                    <div class="review-stars">★★★★★</div>
+                    <div class="review-text">Уже год хожу только к Александре. Лучший мастер в городе!</div>
+                </div>
+            </div>
+
+            <!-- Loyalty Card -->
+            <div class="card loyalty-card">
+                <div class="card-icon">🎁</div>
+                <h2 class="card-title">Программа лояльности</h2>
+                <p class="card-desc">Бонусы и скидки для постоянных клиентов</p>
+                
+                <div class="loyalty-content">
+                    <div class="loyalty-progress">
+                        <div style="font-weight: 600;">Ваш уровень: Золотой 💎</div>
+                        <div class="progress-bar">
+                            <div class="progress-fill"></div>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; font-size: 0.8rem; color: var(--text-light);">
+                            <span>7 000 бонусов</span>
+                            <span>До платины: 3 000</span>
+                        </div>
+                    </div>
+                    <div class="loyalty-benefits">
+                        <div class="benefit-item">
+                            <div class="benefit-icon">🎂</div>
+                            <span>Скидка 20% в день рождения</span>
+                        </div>
+                        <div class="benefit-item">
+                            <div class="benefit-icon">💝</div>
+                            <span>Кэшбэк 5% бонусами</span>
+                        </div>
+                        <div class="benefit-item">
+                            <div class="benefit-icon">⚡</div>
+                            <span>Приоритетная запись</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Chat Card -->
+            <div class="card chat-card">
+                <div class="card-icon">💬</div>
+                <h2 class="card-title">Чат с мастером</h2>
+                <p class="card-desc">Прямая связь для вопросов</p>
+                
+                <div class="chat-preview">
+                    <div class="chat-message">
+                        <div class="chat-bubble">Здравствуйте! Подскажите, есть ли свободное время на завтра?</div>
+                    </div>
+                    <div class="chat-message sent">
+                        <div class="chat-bubble">Добрый день! Да, есть окошко в 14:00 😊</div>
+                    </div>
+                </div>
+                <div class="chat-input">
+                    <input type="text" placeholder="Написать сообщение...">
+                    <button>➤</button>
+                </div>
+            </div>
+
+            <!-- Notifications Card -->
+            <div class="card notifications-card">
+                <div class="card-icon">🔔</div>
+                <h2 class="card-title">Уведомления</h2>
+                <p class="card-desc">Напоминания и акции</p>
+                
+                <div class="notification-item">
+                    <div class="notification-icon reminder">⏰</div>
+                    <div class="notification-text">
+                        <div class="notification-title">Напоминание о записи</div>
+                        <div class="notification-desc">Завтра в 14:00 маникюр</div>
+                    </div>
+                </div>
+                <div class="notification-item">
+                    <div class="notification-icon promo">🔥</div>
+                    <div class="notification-text">
+                        <div class="notification-title">Специальное предложение</div>
+                        <div class="notification-desc">-15% на педикюр до конца месяца</div>
+                    </div>
+                </div>
+                <div class="notification-item">
+                    <div class="notification-icon confirm">✅</div>
+                    <div class="notification-text">
+                        <div class="notification-title">Запись подтверждена</div>
+                        <div class="notification-desc">30 марта, 12:00</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- User Flow Section -->
+        <div class="flow-section">
+            <h2 class="flow-title">Путь клиента</h2>
+            <div class="flow-steps">
+                <div class="flow-step">
+                    <div class="flow-number">1</div>
+                    <div class="flow-label">Открытие</div>
+                    <div class="flow-desc">Переход из Telegram</div>
+                </div>
+                <div class="flow-arrow">→</div>
+                <div class="flow-step">
+                    <div class="flow-number">2</div>
+                    <div class="flow-label">Выбор услуги</div>
+                    <div class="flow-desc">Просмотр каталога и цен</div>
+                </div>
+                <div class="flow-arrow">→</div>
+                <div class="flow-step">
+                    <div class="flow-number">3</div>
+                    <div class="flow-label">Дата и время</div>
+                    <div class="flow-desc">Выбор удобного слота</div>
+                </div>
+                <div class="flow-arrow">→</div>
+                <div class="flow-step">
+                    <div class="flow-number">4</div>
+                    <div class="flow-label">Подтверждение</div>
+                    <div class="flow-desc">Получение напоминания</div>
+                </div>
+                <div class="flow-arrow">→</div>
+                <div class="flow-step">
+                    <div class="flow-number">5</div>
+                    <div class="flow-label">Визит</div>
+                    <div class="flow-desc">Услуга + бонусы</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Interactive elements
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.addEventListener('click', function() {
+                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+
+        document.querySelectorAll('.filter-tag').forEach(tag => {
+            tag.addEventListener('click', function() {
+                document.querySelectorAll('.filter-tag').forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+
+        document.querySelectorAll('.time-slot').forEach(slot => {
+            slot.addEventListener('click', function() {
+                document.querySelectorAll('.time-slot').forEach(s => s.classList.remove('selected'));
+                this.classList.add('selected');
+            });
+        });
+
+        document.querySelectorAll('.day').forEach(day => {
+            day.addEventListener('click', function() {
+                if (this.textContent) {
+                    document.querySelectorAll('.day').forEach(d => d.classList.remove('selected'));
+                    this.classList.add('selected');
+                }
+            });
+        });
+
+        document.querySelectorAll('.service-item').forEach(item => {
+            item.addEventListener('click', function() {
+                this.style.transform = 'scale(0.95)';
+                setTimeout(() => this.style.transform = '', 150);
+            });
+        });
+    </script>
+</body>
+</html>
